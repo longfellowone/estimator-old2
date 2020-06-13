@@ -11,3 +11,41 @@ A line element from 0 to 1500 (unitless, i.e. user units) would stretch 200 pixe
 Its a coordinate transformation, of sorts.
 
 I suggest you learn from a book like "SVG Essentials", about \$10 used, from which I loosely quote this answer.
+
+---
+
+https://www.html5rocks.com/en/tutorials/speed/animations/
+https://gomakethings.com/debouncing-events-with-requestanimationframe-for-better-performance/
+https://stackoverflow.com/questions/36098039/javascript-move-element-with-mousemove-event-60-fps-requestanimationframe
+
+var mouseIsDown = false,
+lastMousePosition = { x: 0, y: 0 };
+
+function onMouseDown() {
+mouseIsDown = true;
+requestAnimationFrame(update);
+}
+
+function onMouseUp() {
+mouseIsDown = false;
+}
+
+function onMouseMove(evt) {
+lastMousePosition.x = evt.clientX;
+lastMousePosition.y = evt.clientY;
+}
+
+function update() {
+if(mouseIsDown) {
+requestAnimationFrame(update);
+}
+
+    // now draw object at lastMousePosition
+
+}
+
+document.addEventListener('mousedown', onMouseDown, false);
+document.addEventListener('mouseup', onMouseUp, false);
+document.addEventListener('mousemove', onMouseMove, false);
+
+---

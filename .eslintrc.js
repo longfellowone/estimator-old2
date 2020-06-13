@@ -16,6 +16,6 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
-    "vue/singleline-html-element-content-newline": "off",
+    // "vue/singleline-html-element-content-newline": "off",
   },
 };

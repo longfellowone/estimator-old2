@@ -11,11 +11,16 @@
 </template>
 
 <script lang="ts">
+import { useStore } from "vuex";
+
 export default {
   name: "Takeoff",
   components: {},
   props: {},
   setup() {
+    const store = useStore();
+
+    return { store };
     // const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
     // const data = [];
     // for (let i = 0; i < 1000; i++) {

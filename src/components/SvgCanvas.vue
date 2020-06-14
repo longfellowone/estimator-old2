@@ -23,15 +23,24 @@
           :r="30"
           style="pointer-events: none;"
         ></Circle>
-      </g>
-      <g fill="green" fill-opacity="0.5">
         <Circle
-          v-for="item in data"
-          :key="item.id"
-          :x="item.x"
-          :y="item.y"
-          :r="item.r"
-          @click="clickHandler"
+          v-if="dragging"
+          :x="mousePosition.x"
+          :y="mousePosition.y"
+          :r="30"
+          @mouseup="endDragNode(99)"
+        ></Circle>
+        <Circle
+          v-for="node in data"
+          :key="node.id"
+          :id="node.id"
+          :x="node.x"
+          :y="node.y"
+          :r="node.r"
+          :dragging="node.dragging"
+          @start-drag-node="startDragNode"
+          @dragging-node="draggingNode"
+          @end-drag-node="endDragNode"
         ></Circle>
       </g>
     </g>
@@ -59,7 +68,7 @@ export default {
     const transformStr = ref('')
     const mousePosition = ref({ x: 0, y: 0 })
     const lastUpdateCall = ref(0)
-    const drawing = ref(true)
+    const drawing = ref(false)
 
     const zoom = d3
       .zoom()
@@ -80,6 +89,8 @@ export default {
 
       d3.select(drawingRef.value)
         .on('click', () => {
+          if (!drawing.value) return
+
           const x = ~~d3.mouse(drawingRef.value)[0]
           const y = ~~d3.mouse(drawingRef.value)[1]
 
@@ -90,7 +101,7 @@ export default {
             r: 30,
           }
 
-          store.commit('test', node)
+          store.commit('createNode', node)
         })
         .on('mousemove', () => {
           const x = d3.mouse(drawingRef.value)[0]
@@ -104,18 +115,38 @@ export default {
             lastUpdateCall.value = 0
           })
         })
-        .on('mouseleave', () => (drawing.value = !drawing.value))
+      // .on('mouseleave', () => (drawing.value = !drawing.value))
     })
 
-    const clickHandler = () => console.log('box clicked')
+    const dragging = ref(false)
+
+    const startDragNode = id => {
+      dragging.value = true
+      store.commit('startDragNode', id)
+    }
+
+    const draggingNode = id => {
+      console.log(id)
+    }
+
+    const endDragNode = id => {
+      dragging.value = false
+      store.commit('endDragNode', {
+        x: mousePosition.value.x,
+        y: mousePosition.value.y,
+      })
+    }
 
     return {
       svgRef,
       drawingRef,
       transformStr,
       mousePosition,
-      clickHandler,
+      startDragNode,
+      draggingNode,
+      endDragNode,
       drawing,
+      dragging,
     }
   },
 }

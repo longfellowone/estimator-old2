@@ -4,9 +4,9 @@
 
 <script lang="ts">
 export default {
-  name: "Home",
+  name: 'Home',
   components: {},
   props: {},
   setup() {},
-};
+}
 </script>

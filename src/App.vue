@@ -4,20 +4,21 @@
     <router-link to="/">Home</router-link>
     <router-link to="/Takeoff">Takeoff</router-link>
   </div>-->
+
   <router-view />
 </template>
 
 <script lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   props: {},
   setup() {
-    const route = useRoute();
+    const route = useRoute()
 
-    return { route };
+    return { route }
   },
-};
+}
 </script>

@@ -1,16 +1,13 @@
 export interface State {
-  nodes: Node[]
-  assemblies: Assembly[]
+  // nodes: Node[]
+  // assemblies: Assembly[]
   //   products: Product[]
 }
 
 export interface Node {
   id: number
-  cx: number
-  cy: number
-  r: number
-  colour: string
-  opacity: number
+  x: number
+  y: number
 }
 
 export interface Assembly {
@@ -18,6 +15,7 @@ export interface Assembly {
   name: string
   colour: string
   opacity: number
+  total: number
   //   items: Item[]
 }
 
@@ -26,3 +24,5 @@ export interface Item {
 }
 
 export interface Product {}
+
+export interface Layer {}

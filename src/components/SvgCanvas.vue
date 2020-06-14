@@ -4,7 +4,7 @@
     class="bg-blue-500 w-full h-full"
     style="user-select: none;"
   >
-    <g ref="dawingRef" :transform="transformStr">
+    <g ref="drawingRef" :transform="transformStr">
       <image
         href="../assets/drawing.jpg"
         width="14400"
@@ -12,6 +12,25 @@
         style="user-select: none;"
         @dragstart.prevent
       />
+      <g fill="green" fill-opacity="0.4">
+        <!-- <Circle
+          :x="mousePosition.x"
+          :y="mousePosition.y"
+          :r="30"
+          style="pointer-events: none;"
+        ></Circle> -->
+      </g>
+      <!-- <g fill="blue" fill-opacity="0.4"> -->
+      <circle
+        v-for="item in data"
+        :cx="item.x"
+        :cy="item.y"
+        :r="item.r"
+        fill="blue"
+        fill-opacity="0.4"
+        @click="clickHandler"
+      ></circle>
+      <!-- </g> -->
     </g>
   </svg>
 </template>
@@ -20,9 +39,13 @@
 import { ref, onMounted } from 'vue'
 import * as d3 from 'd3'
 
+import Circle from './Circle.vue'
+
 export default {
   name: 'SvgCanvas',
-  components: {},
+  components: {
+    // Circle,
+  },
   props: { data: { type: Array, default: () => [] } },
   setup() {
     const svgRef = ref()
@@ -63,7 +86,7 @@ export default {
 
     const clickHandler = () => console.log('box clicked')
 
-    return { svgRef, drawingRef, transformStr }
+    return { svgRef, drawingRef, transformStr, mousePosition, clickHandler }
   },
 }
 </script>

@@ -1,4 +1,5 @@
 <template functional>
+  <!-- <use xlink:href="#circle" :x="x" :y="y" /> -->
   <circle :cx="x" :cy="y" :r="r" />
 </template>
 

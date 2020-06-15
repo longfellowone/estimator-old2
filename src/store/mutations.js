@@ -17,7 +17,7 @@ export default {
     state.nodes[state.selectedNode.id].y = y
     // console.log('dragging', id)
   },
-  endDragNode(state, { x, y }) {
+  endDragNode(state) {
     state.selectedNode = {}
     // state.nodes.push({ ...state.selectedNode, x, y, dragging: false })
     // state.nodes[id].x = 1000

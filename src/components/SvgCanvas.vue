@@ -12,9 +12,6 @@
         style="user-select: none;"
         @dragstart.prevent
       />
-      <!-- <symbol id="circle">
-        <circle cx="30" cy="30" r="30" />
-      </symbol> -->
       <g fill="green" fill-opacity="0.5">
         <Circle
           v-if="drawing"
@@ -22,13 +19,6 @@
           :y="mousePosition.y"
           :r="30"
           style="pointer-events: none;"
-        ></Circle>
-        <Circle
-          v-if="dragging"
-          :x="mousePosition.x"
-          :y="mousePosition.y"
-          :r="30"
-          @mouseup="endDragNode(99)"
         ></Circle>
         <Circle
           v-for="node in data"
@@ -39,7 +29,6 @@
           :r="node.r"
           :dragging="node.dragging"
           @start-drag-node="startDragNode"
-          @dragging-node="draggingNode"
           @end-drag-node="endDragNode"
         ></Circle>
       </g>
@@ -83,7 +72,7 @@ export default {
     const zooming = e => (transformStr.value = `${e.transform}`)
 
     onMounted(() => {
-      const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.05)
+      const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.2)
 
       d3.select(svgRef.value).call(zoom).call(zoom.transform, initialTransform)
 
@@ -111,30 +100,27 @@ export default {
             cancelAnimationFrame(lastUpdateCall.value)
 
           lastUpdateCall.value = requestAnimationFrame(() => {
-            mousePosition.value = { x, y }
             lastUpdateCall.value = 0
+            mousePosition.value = { x, y }
+
+            if (dragging.value) store.commit('draggingNode', { x, y })
           })
         })
       // .on('mouseleave', () => (drawing.value = !drawing.value))
     })
 
     const dragging = ref(false)
+    const selectedNode = ref()
 
     const startDragNode = id => {
+      // Todo: Factor in offset
       dragging.value = true
       store.commit('startDragNode', id)
     }
 
-    const draggingNode = id => {
-      console.log(id)
-    }
-
-    const endDragNode = id => {
+    const endDragNode = () => {
       dragging.value = false
-      store.commit('endDragNode', {
-        x: mousePosition.value.x,
-        y: mousePosition.value.y,
-      })
+      store.commit('endDragNode')
     }
 
     return {
@@ -143,7 +129,6 @@ export default {
       transformStr,
       mousePosition,
       startDragNode,
-      draggingNode,
       endDragNode,
       drawing,
       dragging,

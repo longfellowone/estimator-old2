@@ -1,13 +1,10 @@
 <template>
-  <!-- <use xlink:href="#circle" :x="x" :y="y" /> -->
   <circle
-    v-show="!dragging"
     :cx="x"
     :cy="y"
     :r="r"
     @mousedown="$emit('start-drag-node', id)"
-    @mousemove="$emit('dragging-node', id)"
-    @mouseup="$emit('end-drag-node', id)"
+    @mouseup="$emit('end-drag-node')"
   />
 </template>
 
@@ -21,12 +18,6 @@ export default {
     x: { type: Number, default: 0 },
     y: { type: Number, default: 0 },
     r: { type: Number, default: 0 },
-    dragging: { type: Boolean, default: false },
-  },
-  setup() {
-    const store = useStore()
-
-    return {}
   },
 }
 </script>

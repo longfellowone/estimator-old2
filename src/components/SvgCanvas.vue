@@ -18,8 +18,8 @@
           :x="mousePosition.x"
           :y="mousePosition.y"
           :r="30"
-          style="pointer-events: none;"
-        ></Circle>
+          style="cursor: crosshair;"
+        />
         <Circle
           v-for="node in data"
           :key="node.id"
@@ -30,7 +30,7 @@
           :dragging="node.dragging"
           @start-drag-node="startDragNode"
           @end-drag-node="endDragNode"
-        ></Circle>
+        />
       </g>
     </g>
   </svg>
@@ -57,7 +57,10 @@ export default {
     const transformStr = ref('')
     const mousePosition = ref({ x: 0, y: 0 })
     const lastUpdateCall = ref(0)
-    const drawing = ref(false)
+    const drawing = ref(true)
+    const dragging = ref(false)
+
+    const zooming = (e: any) => (transformStr.value = `${e.transform}`)
 
     const zoom = d3
       .zoom()
@@ -69,12 +72,12 @@ export default {
       )
       .on('zoom', () => zooming(d3.event))
 
-    const zooming = e => (transformStr.value = `${e.transform}`)
-
     onMounted(() => {
       const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.2)
 
-      d3.select(svgRef.value).call(zoom).call(zoom.transform, initialTransform)
+      d3.select(svgRef.value)
+        .call(zoom)
+        .call(zoom.transform, initialTransform)
 
       d3.select(drawingRef.value)
         .on('click', () => {
@@ -109,11 +112,9 @@ export default {
       // .on('mouseleave', () => (drawing.value = !drawing.value))
     })
 
-    const dragging = ref(false)
-    const selectedNode = ref()
-
-    const startDragNode = id => {
+    const startDragNode = (id: number) => {
       // Todo: Factor in offset
+      if (drawing.value === true) return
       dragging.value = true
       store.commit('startDragNode', id)
     }

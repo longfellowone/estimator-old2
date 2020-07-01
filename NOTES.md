@@ -1,3 +1,6 @@
+ncu
+ncu -u
+
 https://medium.com/swlh/modular-data-visualizations-with-vue-js-and-d3-87b37392a589
 
 If you don't specify a viewbox, all unitless numbers in an element are assumed to be pixels. (and SVG assumes 90 dpi or pixels per inch for conversion from units like cm to pixels.)

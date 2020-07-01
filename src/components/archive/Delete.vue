@@ -66,22 +66,22 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed } from 'vue'
 // import { zoom } from 'd3-zoom'
 // import { select }from "d3-selection";
-import * as d3 from "d3";
+import * as d3 from 'd3'
 
 export default {
-  name: "Canvas",
+  name: 'Canvas',
   props: {
     data: { type: Array, default: () => [] },
   },
   setup() {
-    const canvasRef = ref(null);
-    const containerRef = ref(null);
-    const transformStr = ref(null);
+    const canvasRef = ref(null)
+    const containerRef = ref(null)
+    const transformStr = ref(null)
 
-    const mousePosition = ref({ x: 0, y: 0 });
+    const mousePosition = ref({ x: 0, y: 0 })
 
     const zoom = d3
       .zoom()
@@ -90,51 +90,51 @@ export default {
       // Returning false in the filter function ignores the event.
       .filter(
         () =>
-          !(d3.event.type === "mousedown" && d3.event.button === 0) ||
+          !(d3.event.type === 'mousedown' && d3.event.button === 0) ||
           d3.event.button === 2
       )
-      .on("zoom", () => zooming(d3.event));
+      .on('zoom', () => zooming(d3.event))
 
-    const zooming = (e) => (transformStr.value = `${e.transform}`);
+    const zooming = e => (transformStr.value = `${e.transform}`)
 
     onMounted(() => {
-      const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.1);
+      const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.1)
 
       d3.select(containerRef.value)
         .call(zoom)
-        .call(zoom.transform, initialTransform);
+        .call(zoom.transform, initialTransform)
 
       d3.select(canvasRef.value)
-        .on("click", () => {
+        .on('click', () => {
           // const x = parseInt(d3.mouse(canvasRef.value)[0]);
           // const y = parseInt(d3.mouse(canvasRef.value)[1]);
           // console.log(x, y);
         })
-        .on("mousemove", () => {
-          const x = d3.mouse(canvasRef.value)[0];
-          const y = d3.mouse(canvasRef.value)[1];
+        .on('mousemove', () => {
+          const x = d3.mouse(canvasRef.value)[0]
+          const y = d3.mouse(canvasRef.value)[1]
 
-          mousePosition.value = { x, y };
-        });
-    });
+          mousePosition.value = { x, y }
+        })
+    })
 
-    const clickHandler = () => console.log("box clicked");
+    const clickHandler = () => console.log('box clicked')
 
-    const dragging = ref(false);
-    const offset = ref(null);
+    const dragging = ref(false)
+    const offset = ref(null)
 
     const dragStartHandler = (x, y) => {
       offset.value = {
         x: x - mousePosition.value.x,
         y: y - mousePosition.value.y,
-      };
+      }
 
-      dragging.value = true;
-    };
+      dragging.value = true
+    }
 
     const dragEndHandler = () => {
-      dragging.value === true && (dragging.value = false);
-    };
+      dragging.value === true && (dragging.value = false)
+    }
 
     const newPosition = computed(() =>
       dragging.value
@@ -146,7 +146,7 @@ export default {
             x: 3000,
             y: 1000,
           }
-    );
+    )
 
     return {
       containerRef,
@@ -158,7 +158,7 @@ export default {
       dragStartHandler,
       dragEndHandler,
       mousePosition,
-    };
+    }
   },
-};
+}
 </script>

@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import { useStore } from 'vuex'
-import state from '../store/state'
 
 import SvgCanvas from '../components/SvgCanvas.vue'
 

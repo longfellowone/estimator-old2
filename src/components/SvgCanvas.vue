@@ -48,8 +48,8 @@ export default {
   components: {
     Circle,
   },
-  props: { data: { type: Array, default: () => [] } },
-  setup() {
+  props: { data: { type: Array, default: (): Node[] => [] } },
+  setup(): any {
     const store = useStore()
 
     const svgRef = ref()
@@ -75,9 +75,7 @@ export default {
     onMounted(() => {
       const initialTransform = d3.zoomIdentity.translate(1, 1).scale(0.2)
 
-      d3.select(svgRef.value)
-        .call(zoom)
-        .call(zoom.transform, initialTransform)
+      d3.select(svgRef.value).call(zoom).call(zoom.transform, initialTransform)
 
       d3.select(drawingRef.value)
         .on('click', () => {

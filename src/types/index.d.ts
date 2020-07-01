@@ -1,5 +1,6 @@
 export interface State {
-  // nodes: Node[]
+  nodes: Node[]
+  selectedNode: Node
   // assemblies: Assembly[]
   //   products: Product[]
 }
@@ -8,6 +9,7 @@ export interface Node {
   id: number
   x: number
   y: number
+  r: number
 }
 
 export interface Assembly {
